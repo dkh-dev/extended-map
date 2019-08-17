@@ -1,0 +1,29 @@
+{
+  "name": "@dkh-dev/extended-map",
+  "version": "1.0.0",
+  "description": "Map with extended functionality",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/dkh-dev/extended-map.git"
+  },
+  "keywords": [
+    "map",
+    "limit",
+    "max",
+    "size",
+    "cache",
+    "build",
+    "builder"
+  ],
+  "author": "Hoang <dangkyokhoang@gmail.com> (https://dangkyokhoang.github.io/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dkh-dev/extended-map/issues"
+  },
+  "homepage": "https://github.com/dkh-dev/extended-map#readme"
+}
