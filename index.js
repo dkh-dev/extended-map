@@ -16,6 +16,21 @@ class ExtendedMap extends Map {
 
         const value = onUndefined()
 
+        if (value.then) {
+            const deleteOnError = async () => {
+                try {
+                    await value
+                } catch (error) {
+                    // errors should be handled manually
+                    if (super.get(key) === value) {
+                        super.delete(key)
+                    }
+                }
+            }
+
+            deleteOnError()
+        }
+
         super.set(key, value)
 
         return value
