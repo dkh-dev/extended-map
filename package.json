@@ -1,6 +1,6 @@
 {
   "name": "@dkh-dev/extended-map",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Map with extended functionality",
   "main": "index.js",
   "files": [
