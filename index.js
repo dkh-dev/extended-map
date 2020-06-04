@@ -16,7 +16,7 @@ class ExtendedMap extends Map {
 
         const value = onUndefined()
 
-        if (value && value.then) {
+        if (value && value instanceof Promise) {
             const deleteOnError = async () => {
                 try {
                     await value
