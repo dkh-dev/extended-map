@@ -1,41 +1,30 @@
 'use strict'
 
+/* eslint-disable max-statements */
+
+const test = require('tape')
+
 const ExtendedMap = require('..')
 
-const map = new ExtendedMap([ [ 1, 1 ] ]).limit(3)
+test('ExtendedMap', async t => {
+  const map = new ExtendedMap([ [ 1, 1 ] ])
 
-const main = async () => {
-    console.log(map.get(1))
-    console.log(map.get(2))
-    console.log(map.get(2, () => 2))
-    console.log(map.get(2))
-    console.log(await map.get('resolve', () => Promise.resolve(4)))
-    console.log(await map.get('resolve'))
+  t.plan(8)
 
-    // rejected promises are deleted
+  t.equal(map.get(1), 1, 'predefined entries')
 
-    try {
-        await map.get('reject', () => Promise.reject(5))
-    } catch (error) {
-        console.log(error)
-    }
+  t.equal(map.get(2), void 0)
+  t.equal(map.get(2, () => 2), 2, 'get with onUndefined()')
+  t.equal(map.get(2), 2)
 
-    try {
-        await map.get('reject', () => Promise.reject(6))
-    } catch (error) {
-        console.log(error)
-    }
+  t.equal(await map.get('resolves', () => Promise.resolve(3)), 3)
+  t.equal(await map.get('resolves'), 3)
 
-    console.log(map.set(3, 3).set(1, 1).set(4, 4))
-    // => 1
-    //    undefined
-    //    2
-    //    2
-    //    4
-    //    4
-    //    5
-    //    6
-    //    ExtendedMap [Map] { 3 => 3, 1 => 1, 4 => 4, max: 3 }
-}
+  try {
+    await map.get('rejects', () => Promise.reject(new Error()))
+  } catch (error) {
+    t.ok(!map.has('rejects'), 'rejected promises should be deleted')
+  }
 
-main()
+  t.equal(map.size, 3)
+})

@@ -1,60 +1,40 @@
 'use strict'
 
 class ExtendedMap extends Map {
-    constructor(entries) {
-        super(entries)
+  get(key, onUndefined) {
+    if (super.has(key)) {
+      return super.get(key)
     }
 
-    get(key, onUndefined) {
-        if (super.has(key)) {
-            return super.get(key)
-        }
-
-        if (!onUndefined) {
-            return
-        }
-
-        const value = onUndefined()
-
-        if (value && value instanceof Promise) {
-            const deleteOnError = async () => {
-                try {
-                    await value
-                } catch (error) {
-                    // errors should be handled manually
-                    if (super.get(key) === value) {
-                        super.delete(key)
-                    }
-                }
-            }
-
-            deleteOnError()
-        }
-
-        super.set(key, value)
-
-        return value
+    if (!onUndefined) {
+      return void 0
     }
 
-    set(key, value) {
-        if (super.has(key)) {
-            // Sorts entries by last modified time
-            super.delete(key)
-        } else if (this.max && super.size >= this.max) {
-            const keys = super.keys()
-            const { value: key } = keys.next()
+    const value = onUndefined()
 
-            super.delete(key)
-        }
+    super.set(key, value)
 
-        return super.set(key, value)
+    if (value && value instanceof Promise) {
+      this.promise(key, value)
     }
 
-    limit(max) {
-        this.max = max
+    return value
+  }
 
-        return this
+  /**
+   * Removes the promise if it is rejected.
+   *
+   * Note: This doesn't silence errors. Errors should be handled manually.
+   */
+  async promise(key, value) {
+    try {
+      await value
+    } catch (error) {
+      if (super.get(key) === value) {
+        super.delete(key)
+      }
     }
+  }
 }
 
 module.exports = ExtendedMap

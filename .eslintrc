@@ -1,0 +1,11 @@
+{
+  "extends": "@dkh-dev/eslint-config",
+  "rules": {
+    "consistent-return": [
+      "error",
+      {
+        "treatUndefinedAsUnspecified": false
+      }
+    ]
+  }
+}

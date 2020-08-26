@@ -1,13 +1,18 @@
 {
   "name": "@dkh-dev/extended-map",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Map with extended functionality",
   "main": "index.js",
   "files": [
     "index.js"
   ],
+  "devDependencies": {
+    "@dkh-dev/eslint-config": "^1.6.0",
+    "tape": "^5.0.1"
+  },
   "scripts": {
-    "test": "node test"
+    "test": "node test",
+    "prepublishOnly": "npm test"
   },
   "repository": {
     "type": "git",
